@@ -100,9 +100,22 @@ button#newnote {
 }
 
 #newnote:hover {
-  background-color: rgb(167, 197, 225);
+  color: rgb(167, 197, 225);
   cursor: pointer;
   transition-duration: 0.4s;
+}
+
+ul {
+  padding: 0;
+}
+
+#notetabs {
+  padding: 5px;
+  border-bottom: 1px solid rgb(147, 147, 147);
+}
+
+#notetitle {
+  font-size: large;
 }
 
 div#rightside {
@@ -118,15 +131,54 @@ div#noselect {
   color: gray;
 }
 
-ul {
-  padding: 0;
+#rightsidenote {
+  display: flex;
+  flex-direction: column;
+  flex: 5;
+  padding: 15px;
 }
 
-#notetabs {
-  padding: 5px;
+#editorHead {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   border-bottom: 1px solid rgb(147, 147, 147);
+  padding-bottom: 13px;
 }
 
-#notetitle {
+#titledate {
+  flex: 2;
+}
+
+label {
+  size: 30px;
+}
+
+#time {
+  border: none;
+  font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
+  padding-top: 5px;
+}
+
+#editsavebutton {
+  display: flex;
+  flex-direction: row;
+}
+
+.notebuttons{
+  border: none;
+  background-color: transparent;
   font-size: large;
+  padding-right: 10px;
+}
+
+.notebuttons:hover {
+  color: rgb(167, 197, 225);
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+#mainnotes {
+  padding-top: 10px;
 }

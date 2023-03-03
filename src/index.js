@@ -12,8 +12,15 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route element={<App />}>
-          <Route path="/notes/:noteId" element={<Editor />}></Route>
-          <Route path="/notes/:noteId/edit" element={<Editor />}></Route>
+          <Route path="/" element={<Editor />}></Route>
+          <Route
+            path="/notes/:noteId"
+            element={<Editor edit={false} />}
+          ></Route>
+          <Route
+            path="/notes/:noteId/edit"
+            element={<Editor edit={true} />}
+          ></Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import Editor from "./Editor";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+  const navigate = useNavigate();
   const [note, newNotes] = useState([]);
   const addnewnote = () => {
     newNotes([
@@ -13,6 +16,7 @@ function App() {
       ...note,
     ]);
   };
+
   return (
     <>
       <div className="header">
@@ -47,7 +51,7 @@ function App() {
           </div>
         </div>
         <>
-          <Outlet />
+          <Editor />
         </>
       </div>
     </>
