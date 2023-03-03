@@ -34,35 +34,99 @@ body {
   padding: 10px;
 }
 
-.hamburgermenu {
+#hamburgermenu {
   position: absolute;
   top: 0;
   left: 0;
-  padding: 23px;
+  padding: 23.5px;
   background-color: transparent;
   font-size: x-large;
   border: none;
   font-weight: bolder;
-  transition-duration: 0.4s;
   padding-left: 30px;
   padding-right: 30px;
 }
 
-button:hover {
+#hamburgermenu:hover {
   background-color: rgb(167, 197, 225);
   cursor: pointer;
+  transition-duration: 0.4s;
 }
 
 h1 {
   margin: 0;
   font-weight: bolder;
-  letter-spacing: 2px;
 }
 
 p.subtitle {
   margin: 0;
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 12px;
+  font-weight: bolder;
   color: rgb(87, 87, 87);
+  padding-top: 4px;
+}
 
+div#mainbody {
+  display: flex;
+  flex-direction: row;
+}
+
+div#leftside {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 5px;
+  height: 95vh;
+  border-right: 1px solid rgb(147, 147, 147);
+}
+
+#sidemenuhead {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+  border-bottom: 1px solid rgb(147, 147, 147);
+}
+
+h1#notesside {
+  font-size: larger;
+  padding-right: 200px;
+}
+
+button#newnote {
+  background-color: transparent;
+  font-size: large;
+  border: none;
+  font-weight: bolder;
+}
+
+#newnote:hover {
+  background-color: rgb(167, 197, 225);
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+div#rightside {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex: 5;
+}
+
+div#noselect {
+  font-size: x-large;
+  color: gray;
+}
+
+ul {
+  padding: 0;
+}
+
+#notetabs {
+  padding: 5px;
+  border-bottom: 1px solid rgb(147, 147, 147);
+}
+
+#notetitle {
+  font-size: large;
 }
