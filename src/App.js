@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Editor from "./Editor";
-import { useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 function App() {
-  const navigate = useNavigate();
-  const [note, newNotes] = useState([]);
+  const [notes, newNote] = useState([]);
   const addnewnote = () => {
-    newNotes([
+    newNote([
       {
         title: "Untitled",
         body: "...",
-        time: "--",
+        when: "--:--:--",
       },
-      ...note,
+      ...notes,
     ]);
+  };
+
+  const updateNote = (newNote, noteId) => {
+    console.log(newNote, noteId);
+    // update the note at the noteId index to the newNote
+    localStorage.setItem(noteId, JSON.stringify(newNote));
+    const item = JSON.parse(localStorage.getItem(noteId));
+    console.log(newNote);
   };
 
   return (
@@ -37,7 +43,7 @@ function App() {
             </div>
             <div id="notes">
               <ul>
-                {note.map((item, idx) => (
+                {notes.map((item, idx) => (
                   <p id="notetabs">
                     <NavLink to={`/notes/${idx}`}>
                       <h1 id="notetitle">{item.title}</h1>
@@ -51,7 +57,13 @@ function App() {
           </div>
         </div>
         <>
-          <Editor />
+          {notes.length === 0 ? (
+            <div id="rightside">
+              <div id="noselect">Select a note, or create a new one.</div>
+            </div>
+          ) : (
+            <Outlet context={[notes, updateNote]} />
+          )}
         </>
       </div>
     </>

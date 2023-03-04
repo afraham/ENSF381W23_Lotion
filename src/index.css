@@ -75,7 +75,6 @@ div#leftside {
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 5px;
   height: 95vh;
   border-right: 1px solid rgb(147, 147, 147);
 }
@@ -83,7 +82,7 @@ div#leftside {
 #sidemenuhead {
   display: flex;
   flex-direction: row;
-  padding: 5px;
+  padding: 12px;
   border-bottom: 1px solid rgb(147, 147, 147);
 }
 
@@ -110,8 +109,9 @@ ul {
 }
 
 #notetabs {
-  padding: 5px;
+  padding: 10px;
   border-bottom: 1px solid rgb(147, 147, 147);
+  padding-top: 5px;
 }
 
 #notetitle {
@@ -166,7 +166,7 @@ label {
   flex-direction: row;
 }
 
-.notebuttons{
+.notebuttons {
   border: none;
   background-color: transparent;
   font-size: large;
