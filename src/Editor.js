@@ -1,41 +1,27 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import {
+  NavLink,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 
 function Editor({ edit }) {
   const { noteId } = useParams();
   // useOutletContext returns [note]
   const [notes, updateNote] = useOutletContext();
-  const [value, setValue] = useState("");
+  const [body, setBody] = useState("");
   const [title, setTitle] = useState("Untitled");
   const [time, setTime] = useState("");
 
   const navigate = useNavigate();
 
-  const deleteConfirm = () => {
-    const answer = window.confirm("Are you sure?");
-    if (answer) {
-      deleteNote(noteId);
-    }
-  };
-
-  const deleteNote = () => {
-    
-  }
-
   const saveButton = () => {
-    // have state for title and when
-    updateNote(
-      {
-        title: title,
-        when: time,
-        body: value,
-      },
-      noteId
-    );
-    navigate("./" + noteId);
+    const newNote = { ...notes[noteId], title, body, time };
+    updateNote(newNote, noteId);
+    navigate(`/notes/${noteId}`);
   };
 
   const handleTitleChange = (event) => {
@@ -51,7 +37,7 @@ function Editor({ edit }) {
       <div id="rightsidenote">
         <div id="editorHead">
           <div id="titledate">
-            <h2 contentEditable="true" onInput={handleTitleChange}>
+            <h2 contentEditable="true" onChange={setTitle}>
               {title}
             </h2>
             <input
@@ -64,7 +50,7 @@ function Editor({ edit }) {
           <div id="editsavebutton">
             {edit ? (
               <>
-                <button className="notebuttons" onClick={saveButton}>
+                <button className="notebuttons" onClick={() => saveButton()}>
                   Save
                 </button>
               </>
@@ -73,17 +59,15 @@ function Editor({ edit }) {
                 <button className="notebuttons">Edit</button>
               </NavLink>
             )}
-            <button className="notebuttons" onClick={deleteConfirm}>
-              Delete
-            </button>
+            <button className="notebuttons">Delete</button>
           </div>
         </div>
         {edit ? (
           <div id="mainnotes">
-            <ReactQuill theme="snow" value={value} onChange={setValue} />
+            <ReactQuill theme="snow" value={body} onChange={setBody} />
           </div>
         ) : (
-          <ReactQuill readOnly={true} theme={"bubble"} value={value} />
+          <ReactQuill readOnly={true} theme={"bubble"} value={body} />
         )}
       </div>
     </>
