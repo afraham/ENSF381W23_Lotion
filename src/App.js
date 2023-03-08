@@ -16,17 +16,37 @@ function App() {
     localStorage.setItem(localstorageKey, JSON.stringify(notes));
   };
 
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  };
+
+  const formatDate = (time) => {
+    const formatted = new Date(time).toLocaleString("en-US", options);
+    if (formatted === "Invalid Date") {
+      return "";
+    }
+    return formatted;
+  };
+
   const addNewNote = () => {
+    const newNoteData = {
+      title: `Untitled`,
+      time: "--:--:--",
+      body: "...",
+    };
     newNote([
       {
-        title: `Untitled`,
-        time: "--:--:--",
-        body: "...",
+        ...newNoteData,
       },
       ...notes,
     ]);
     updateLocalStorage();
   };
+  
 
   const updateNote = (newNoteVal, noteId) => {
     noteId = parseInt(noteId);
@@ -46,18 +66,20 @@ function App() {
 
   const deleteNote = (noteId) => {
     const noteNum = parseInt(noteId);
-    const remove = [...notes.slice(0, noteNum), ...notes.slice(noteNum + 1)];
+    const remove = [    ...notes.slice(0, noteNum),     ...notes.slice(noteNum + 1)  ];
     newNote(remove);
-    updateLocalStorage();
+    localStorage.removeItem(`./notes/` + {noteId})
+    updateLocalStorage(); // update local storage
   };
+  
 
-  const [showSidemenu, setShowSidemenu] = useState(false);
+  const [showSidemenu, setShowSidemenu] = useState(true);
 
   return (
     <>
       <div className="header">
         <h1>Lotion</h1>
-        <p className="subtitle">Like Notion, but worse.</p>
+        <p className="subtitle">Like Notion, but <i>much</i> worse.</p>
         <button
           id="hamburgermenu"
           onClick={() => setShowSidemenu(!showSidemenu)}
@@ -66,7 +88,7 @@ function App() {
         </button>
       </div>
       <div id="mainbody">
-        <div id="leftside" >
+        <div id="leftside" className={showSidemenu ? "" : "hide"}>
           <div id="sidemenu" className={showSidemenu ? "show" : "hide"}>
             <div id="sidemenuhead">
               <h1 id="notesside">Notes</h1>
@@ -80,8 +102,10 @@ function App() {
                   <p id="notetabs">
                     <NavLink to={`/notes/${idx}`}>
                       <h1 id="notetitle">{item.title}</h1>
-                      <p id="notetime">{item.time}</p>
-                      <small id="notebody">{item.body}</small>
+                      <small id="notetime">{formatDate(item.time)}</small>
+                      <p id="notebody">
+                        {item.body.replace(/<[^>]*>/g, "")}
+                      </p>
                     </NavLink>
                   </p>
                 ))}

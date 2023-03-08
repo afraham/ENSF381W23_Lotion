@@ -115,7 +115,10 @@ ul {
 #notetabs {
   padding: 10px;
   border-bottom: 1px solid rgb(147, 147, 147);
-  padding-top: 5px;
+  width: 280px;
+  overflow: hidden; 
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
 }
 
 #notetitle {
@@ -140,6 +143,15 @@ div#noselect {
   flex-direction: column;
   flex: 5;
   padding: 15px;
+}
+
+#notetime {
+  color: gray;
+  size: xx-small;
+}
+
+#notebody {
+  size: x-small;
 }
 
 #editorHead {

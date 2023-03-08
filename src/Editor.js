@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   NavLink,
   useNavigate,
@@ -10,32 +10,41 @@ import "react-quill/dist/quill.snow.css";
 
 function Editor({ edit }) {
   const { noteId } = useParams();
-  // useOutletContext returns [note]
   const [notes, updateNote, deleteNote] = useOutletContext();
-  const [body, setBody] = useState(notes[noteId] ? notes[noteId].body : "");
-  const [title, setTitle] = useState(notes[noteId] ? notes[noteId].title : "");
+  const [body, setBody] = useState("");
+  const [title, setTitle] = useState("Untitled");
   const [time, setTime] = useState("");
-
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const note = JSON.parse(localStorage.getItem(`./notes/${noteId}`));
+    if (note) {
+      setTitle(note.title);
+      setBody(note.body);
+      setTime(note.time);
+    }
+  }, [noteId]);
+
   const saveButton = () => {
-    console.log(title);
-    const newNote = { ...notes[noteId], title, body, time };
+    const newNote = { title, body, time };
     updateNote(newNote, noteId);
     navigate(`/notes/${noteId}`);
-    const url = "./notes/" + noteId;
-    // update the note at the noteId index to the newNote
-    notes[noteId] = newNote;
+    const url = `./notes/${noteId}`;
     localStorage.setItem(url, JSON.stringify(newNote));
   };
 
   const deleteButton = () => {
     deleteNote(noteId);
-  }
+  };
 
   const timeChange = (event) => {
     setTime(event.target.value);
   };
+
+  const { id } = useParams();
+
+  // Retrieve the note from localStorage based on the ID
+  const note = JSON.parse(localStorage.getItem(`./notes/${id}`));
 
   return (
     <>
@@ -70,7 +79,9 @@ function Editor({ edit }) {
                 <button className="notebuttons">Edit</button>
               </NavLink>
             )}
-            <button className="notebuttons" onClick={() => deleteButton()}>Delete</button>
+            <button className="notebuttons" onClick={() => deleteButton()}>
+              Delete
+            </button>
           </div>
         </div>
         {edit ? (
