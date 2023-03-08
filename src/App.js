@@ -1,54 +1,73 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import { Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, Outlet } from "react-router-dom";
 
+const localstorageKey = "notes";
 function App() {
+  let existingNotes = localStorage.getItem(localstorageKey);
   const [notes, newNote] = useState([]);
+
+  useEffect(() => {
+    if (existingNotes) {
+      newNote(JSON.parse(existingNotes));
+    }
+  }, []);
+
+  const updateLocalStorage = () => {
+    localStorage.setItem(localstorageKey, JSON.stringify(notes));
+  };
+
   const addNewNote = () => {
     newNote([
       {
         title: `Untitled`,
-        when: "--:--:--",
+        time: "--:--:--",
         body: "...",
       },
       ...notes,
     ]);
+    updateLocalStorage();
   };
 
   const updateNote = (newNoteVal, noteId) => {
-    let temp = [
+    noteId = parseInt(noteId);
+    let updateVals = [
       ...notes.slice(0, noteId),
       {
-        //...newNote,
+        ...newNoteVal,
         title: newNoteVal.title,
         body: newNoteVal.body,
-        when: newNoteVal.time,
+        time: newNoteVal.time,
       },
       ...notes.slice(noteId + 1),
     ];
-    //console.log(temp);
-    newNote(temp);
-    const url = "./notes/" + noteId;
-    // update the note at the noteId index to the newNote
-    notes[noteId] = newNote;
-    //console.log(notes);
-    localStorage.setItem(url, JSON.stringify(newNote));
-    //const item = JSON.parse(localStorage.getItem(url));
-    //console.log(item, url);
+    newNote(updateVals);
+    updateLocalStorage();
   };
+
+  const deleteNote = (noteId) => {
+    const noteNum = parseInt(noteId);
+    const remove = [...notes.slice(0, noteNum), ...notes.slice(noteNum + 1)];
+    newNote(remove);
+    updateLocalStorage();
+  };
+
+  const [showSidemenu, setShowSidemenu] = useState(false);
 
   return (
     <>
       <div className="header">
         <h1>Lotion</h1>
         <p className="subtitle">Like Notion, but worse.</p>
-        <button id="hamburgermenu">
+        <button
+          id="hamburgermenu"
+          onClick={() => setShowSidemenu(!showSidemenu)}
+        >
           <b>&#9776;</b>
         </button>
       </div>
       <div id="mainbody">
-        <div id="leftside">
-          <div id="sidemenu">
+        <div id="leftside" >
+          <div id="sidemenu" className={showSidemenu ? "show" : "hide"}>
             <div id="sidemenuhead">
               <h1 id="notesside">Notes</h1>
               <button id="newnote" onClick={addNewNote}>
@@ -61,7 +80,7 @@ function App() {
                   <p id="notetabs">
                     <NavLink to={`/notes/${idx}`}>
                       <h1 id="notetitle">{item.title}</h1>
-                      <p id="notetime">{item.when}</p>
+                      <p id="notetime">{item.time}</p>
                       <small id="notebody">{item.body}</small>
                     </NavLink>
                   </p>
@@ -76,7 +95,7 @@ function App() {
               <div id="noselect">Select a note, or create a new one.</div>
             </div>
           ) : (
-            <Outlet context={[notes, updateNote]} />
+            <Outlet context={[notes, updateNote, deleteNote]} />
           )}
         </>
       </div>

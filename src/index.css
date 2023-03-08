@@ -20,7 +20,11 @@ body {
   color: rgb(22, 22, 22);
 }
 
-.hidden {
+.show {
+  display: block;
+}
+
+.hide {
   display: none;
 }
 
